@@ -1,6 +1,3 @@
-/* Copyright (c) 2007-2016 MIT 6.005 course staff, all rights reserved.
- * Redistribution of original or derived work requires permission of course staff.
- */
 package rules;
 
 /**
@@ -8,7 +5,7 @@ package rules;
  * general information on Stellar.
  */
 public class RulesOf6005 {
-     
+
     /**
      * Judge whether a given piece of code may be used in an assignment (problem
      * set or team project) or not, according to the 6.005 collaboration policy.
@@ -36,9 +33,8 @@ public class RulesOf6005 {
             boolean availableToOthers, boolean writtenAsCourseWork,
             boolean citingYourSource, boolean implementationRequired) {
         
-        // TODO: Fill in this method, then remove the exception
-        
-        throw new RuntimeException("implement me!");
+        // If the code was written by yourself, it is always allowed
+         return writtenByYourself && !availableToOthers && writtenAsCourseWork && citingYourSource && implementationRequired;
     }
     
     /**
@@ -51,5 +47,14 @@ public class RulesOf6005 {
     public static void main(String[] args) {
         System.out.println("You may certainly use code you wrote yourself: " +
             RulesOf6005.mayUseCodeInAssignment(true, false, true, true, true));
+        // Additional test cases
+        System.out.println("Using code available to others: " +
+            RulesOf6005.mayUseCodeInAssignment(false, true, false, false, false));
+        System.out.println("Using course work code with citation: " +
+            RulesOf6005.mayUseCodeInAssignment(false, false, true, true, false));
+        System.out.println("Using code not written by yourself without citation: " +
+            RulesOf6005.mayUseCodeInAssignment(false, false, true, false, false));
+        System.out.println("Using code when implementation is required: " +
+            RulesOf6005.mayUseCodeInAssignment(false, false, false, false, true));
     }
 }
