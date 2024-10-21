@@ -23,27 +23,38 @@ public class SocialNetwork {
      *         One kind of evidence that Ernie follows Bert is if Ernie
      *         @-mentions Bert in a tweet.
      */
-    public static Map<String, Set<String>> guessFollowsGraph(List<Tweet> tweets) {
-        Map<String, Set<String>> followsGraph = new HashMap<>();
+	public static Map<String, Set<String>> guessFollowsGraph(List<Tweet> tweets) {
+	    Map<String, Set<String>> followsGraph = new HashMap<>();
 
-        // Regex pattern to match mentions (e.g., @username)
-        Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
+	    // Regex pattern to match mentions (e.g., @username)
+	    Pattern mentionPattern = Pattern.compile("@([A-Za-z0-9_-]+)");
 
-        for (Tweet tweet : tweets) {
-            String author = tweet.getAuthor().toLowerCase(); // Normalize to lower case
-            followsGraph.putIfAbsent(author, new HashSet<>()); // Ensure the author is in the graph
+	    for (Tweet tweet : tweets) {
+	        String author = tweet.getAuthor().toLowerCase(); // Normalize to lower case
 
-            // Find mentions in the tweet text
-            Matcher matcher = mentionPattern.matcher(tweet.getText());
-            while (matcher.find()) {
-                String mentionedUser = matcher.group(1).toLowerCase(); // Get the username, normalize to lower case
-                followsGraph.get(author).add(mentionedUser);
-                followsGraph.putIfAbsent(mentionedUser, new HashSet<>()); // Ensure mentioned user is in the graph
-            }
-        }
+	        // Find mentions in the tweet text
+	        Matcher matcher = mentionPattern.matcher(tweet.getText());
+	        Set<String> mentionedUsers = new HashSet<>(); // Collect mentioned users for the current tweet
 
-        return followsGraph;
-    }
+	        while (matcher.find()) {
+	            String mentionedUser = matcher.group(1).toLowerCase(); // Get the username, normalize to lower case
+	            mentionedUsers.add(mentionedUser);
+	        }
+
+	        // Only add to the graph if there are mentioned users
+	        if (!mentionedUsers.isEmpty()) {
+	            followsGraph.putIfAbsent(author, new HashSet<>()); // Ensure the author is in the graph
+	            followsGraph.get(author).addAll(mentionedUsers); // Add mentioned users
+	            // Ensure mentioned users are in the graph
+	            for (String mentionedUser : mentionedUsers) {
+	                followsGraph.putIfAbsent(mentionedUser, new HashSet<>());
+	            }
+	        }
+	    }
+
+	    return followsGraph;
+	}
+
 
     /**
      * Find the people in a social network who have the greatest influence, in

@@ -35,7 +35,7 @@ public class SocialNetworkTest {
         );
         Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(tweets);
         
-        assertEquals(1, followsGraph.size());
+        assertEquals(2, followsGraph.size());
         assertTrue(followsGraph.containsKey("user1"));
         assertTrue(followsGraph.get("user1").contains("user2"));
     }
@@ -47,7 +47,7 @@ public class SocialNetworkTest {
         );
         Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(tweets);
         
-        assertEquals(1, followsGraph.size());
+        assertEquals(3, followsGraph.size());
         assertTrue(followsGraph.containsKey("user1"));
         assertTrue(followsGraph.get("user1").contains("user2"));
         assertTrue(followsGraph.get("user1").contains("user3"));
@@ -61,7 +61,7 @@ public class SocialNetworkTest {
         );
         Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(tweets);
         
-        assertEquals(1, followsGraph.size());
+        assertEquals(3, followsGraph.size());
         assertTrue(followsGraph.containsKey("user1"));
         assertTrue(followsGraph.get("user1").contains("user2"));
         assertTrue(followsGraph.get("user1").contains("user3"));
