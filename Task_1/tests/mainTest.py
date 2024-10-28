@@ -1,7 +1,7 @@
 import unittest
 import tempfile
 import os
-from src.main import search_file_recursive
+from ..src.main import search_file_recursive
 
 class TestRecursiveFileSearch(unittest.TestCase):
 
