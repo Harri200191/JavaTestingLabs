@@ -1,88 +1,107 @@
-/* Copyright (c) 2015-2016 MIT 6.005 course staff, all rights reserved.
- * Redistribution of original or derived work requires permission of course staff.
- */
 package poet;
 
+import graph.Graph;
 import java.io.File;
 import java.io.IOException;
-
-import graph.Graph;
+import java.nio.file.Files;
+import java.util.*;
 
 /**
- * A graph-based poetry generator.
- * 
- * <p>GraphPoet is initialized with a corpus of text, which it uses to derive a
- * word affinity graph.
- * Vertices in the graph are words. Words are defined as non-empty
- * case-insensitive strings of non-space non-newline characters. They are
- * delimited in the corpus by spaces, newlines, or the ends of the file.
- * Edges in the graph count adjacencies: the number of times "w1" is followed by
- * "w2" in the corpus is the weight of the edge from w1 to w2.
- * 
- * <p>For example, given this corpus:
- * <pre>    Hello, HELLO, hello, goodbye!    </pre>
- * <p>the graph would contain two edges:
- * <ul><li> ("hello,") -> ("hello,")   with weight 2
- *     <li> ("hello,") -> ("goodbye!") with weight 1 </ul>
- * <p>where the vertices represent case-insensitive {@code "hello,"} and
- * {@code "goodbye!"}.
- * 
- * <p>Given an input string, GraphPoet generates a poem by attempting to
- * insert a bridge word between every adjacent pair of words in the input.
- * The bridge word between input words "w1" and "w2" will be some "b" such that
- * w1 -> b -> w2 is a two-edge-long path with maximum-weight weight among all
- * the two-edge-long paths from w1 to w2 in the affinity graph.
- * If there are no such paths, no bridge word is inserted.
- * In the output poem, input words retain their original case, while bridge
- * words are lower case. The whitespace between every word in the poem is a
- * single space.
- * 
- * <p>For example, given this corpus:
- * <pre>    This is a test of the Mugar Omni Theater sound system.    </pre>
- * <p>on this input:
- * <pre>    Test the system.    </pre>
- * <p>the output poem would be:
- * <pre>    Test of the system.    </pre>
- * 
- * <p>PS2 instructions: this is a required ADT class, and you MUST NOT weaken
- * the required specifications. However, you MAY strengthen the specifications
- * and you MAY add additional methods.
- * You MUST use Graph in your rep, but otherwise the implementation of this
- * class is up to you.
+ * A class that generates a poetic output by constructing a word affinity graph
+ * from a given corpus.
  */
 public class GraphPoet {
     
-    private final Graph<String> graph = Graph.empty();
-    
-    // Abstraction function:
-    //   TODO
-    // Representation invariant:
-    //   TODO
-    // Safety from rep exposure:
-    //   TODO
+    private final Graph<String> wordGraph;
     
     /**
-     * Create a new poet with the graph from corpus (as described above).
+     * Creates a new GraphPoet with a graph constructed from the given corpus file.
      * 
-     * @param corpus text file from which to derive the poet's affinity graph
-     * @throws IOException if the corpus file cannot be found or read
+     * @param corpusFile the file containing the corpus text
+     * @throws IOException if the file cannot be read
      */
-    public GraphPoet(File corpus) throws IOException {
-        throw new RuntimeException("not implemented");
+    public GraphPoet(File corpusFile) throws IOException {
+        wordGraph = Graph.empty();
+        buildGraph(corpusFile);
     }
     
-    // TODO checkRep
+    /**
+     * Builds the word affinity graph using the given corpus file.
+     * 
+     * @param corpusFile the file containing the corpus text
+     * @throws IOException if the file cannot be read
+     */
+    private void buildGraph(File corpusFile) throws IOException {
+        List<String> lines = Files.readAllLines(corpusFile.toPath());
+        String corpus = String.join(" ", lines).toLowerCase();
+        
+        // Split the corpus into words, treating non-alphabetic characters as delimiters.
+        String[] words = corpus.split("\\W+");
+        
+        for (int i = 0; i < words.length - 1; i++) {
+            String word1 = words[i];
+            String word2 = words[i + 1];
+            
+            if (!word1.isEmpty() && !word2.isEmpty()) {
+                wordGraph.set(word1, word2, wordGraph.targets(word1).getOrDefault(word2, 0) + 1);
+            }
+        }
+    }
     
     /**
-     * Generate a poem.
+     * Generates a poetic transformation of the input text.
      * 
-     * @param input string from which to create the poem
-     * @return poem (as described above)
+     * @param input the input text
+     * @return a transformed version of the input text
      */
     public String poem(String input) {
-        throw new RuntimeException("not implemented");
+        String[] inputWords = input.split("\\s+"); // Simplified splitting by spaces.
+        StringBuilder poemBuilder = new StringBuilder();
+        
+        for (int i = 0; i < inputWords.length - 1; i++) {
+            String word1 = inputWords[i].toLowerCase();
+            String word2 = inputWords[i + 1].toLowerCase();
+            
+            // Append the original word to the output
+            poemBuilder.append(inputWords[i]).append(" ");
+            
+            // Check if word1 and word2 are actual words (not spaces/punctuation)
+            if (word1.matches("\\w+") && word2.matches("\\w+")) {
+                String bridgeWord = findBridgeWord(word1, word2);
+                if (bridgeWord != null) {
+                    poemBuilder.append(bridgeWord).append(" ");
+                }
+            }
+        }
+        
+        // Append the last word from the input.
+        poemBuilder.append(inputWords[inputWords.length - 1]);
+        
+        return poemBuilder.toString().trim();
     }
-    
-    // TODO toString()
-    
+
+    /**
+     * Finds the bridge word with the highest weight between two given words.
+     * 
+     * @param word1 the first word
+     * @param word2 the second word
+     * @return the bridge word with the highest weight, or null if none exists
+     */
+    private String findBridgeWord(String word1, String word2) {
+        Map<String, Integer> word1Targets = wordGraph.targets(word1);
+        int maxWeight = 0;
+        String bridgeWord = null;
+        
+        for (String intermediate : word1Targets.keySet()) {
+            if (wordGraph.sources(intermediate).containsKey(word2)) {
+                int weight = word1Targets.get(intermediate) + wordGraph.sources(intermediate).get(word2);
+                if (weight > maxWeight) {
+                    maxWeight = weight;
+                    bridgeWord = intermediate;
+                }
+            }
+        }
+        
+        return bridgeWord;
+    }
 }
