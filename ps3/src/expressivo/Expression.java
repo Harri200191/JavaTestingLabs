@@ -1,23 +1,6 @@
-/* Copyright (c) 2015-2016 MIT 6.005 course staff, all rights reserved.
- * Redistribution of original or derived work requires permission of course staff.
- */
 package expressivo;
 
-/**
- * An immutable data type representing a polynomial expression of:
- *   + and *
- *   nonnegative integers and floating-point numbers
- *   variables (case-sensitive nonempty strings of letters)
- * 
- * <p>PS3 instructions: this is a required ADT interface.
- * You MUST NOT change its name or package or the names or type signatures of existing methods.
- * You may, however, add additional methods, or strengthen the specs of existing methods.
- * Declare concrete variants of Expression in their own Java source files.
- */
 public interface Expression {
-    
-    // Datatype definition
-    //   TODO
     
     /**
      * Parse an expression.
@@ -51,7 +34,4 @@ public interface Expression {
      */
     @Override
     public int hashCode();
-    
-    // TODO more instance methods
-    
 }
