@@ -36,11 +36,7 @@ public class NumberExpression implements Expression {
 	
 	@Override public Expression differentiate(String variable) {
 		return differentiate(new VariablesExpression(variable));
-	}
-	
-	@Override public Expression simplify(Map<String, Double> environment) {
-		return this;
-	}
+	} 
 	
     public boolean constant() {
     	return true;

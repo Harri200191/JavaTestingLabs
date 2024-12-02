@@ -38,9 +38,5 @@ public class Commands {
      *         variables left in this expression after substitution, it must be evaluated to a single number.
      *         Additional simplifications to the expression may be done at the implementor's discretion.
      * @throws IllegalArgumentException if the expression is invalid
-     */
-    public static String simplify(String expression, Map<String,Double> environment) {
-        return Expression.parse(expression).simplify(environment).toString();
-    }
-    
+     */ 
 }

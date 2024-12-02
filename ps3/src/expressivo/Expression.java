@@ -109,17 +109,7 @@ public interface Expression {
      */
     public Expression differentiate(String variable);
     
-    /**
-     * Simplify substitutes the values for those variables into the expression, 
-     * and attempts to simplfy the substituted polynomial as much as it can.
-     * If substituted polynomial is a constant expression, with no variables remaining,
-     * then simplification must reduce it to a single number.
-     * If substituted polynomials that still contain variables is underdetermined,
-     * reduce child polynomials to number if no variables remaining.
-     * @param environment mapping of variables to values
-     * @return a new simplified Expression left original Expression unmodified.
-     */
-    public Expression simplify(Map<String, Double> environment);
+ 
     
     /**
      * @return true expression is constant otherwise false

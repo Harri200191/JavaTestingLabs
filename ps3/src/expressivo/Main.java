@@ -48,15 +48,13 @@ public class Main {
                     currentExpression = Optional.of(output);
                 } else if (input.startsWith(SIMPLIFY_PREFIX)) {
                     final Map<String,Double> environment = parseSimpify(input);
-                    output = Commands.simplify(currentExpression.get(), environment);
                     // ... but don't change currentExpression
                 } else {
                     final Expression expression = Expression.parse(input);
                     output = expression.toString();
                     currentExpression = Optional.of(output);
                 }
-                
-                System.out.println(output);
+                 
             } catch (NoSuchElementException nse) {
                 // currentExpression was empty
                 System.out.println("must enter an expression before using this command");

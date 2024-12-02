@@ -33,14 +33,7 @@ public class VariablesExpression implements Expression {
 	@Override public Expression differentiate(String variable) {
         return differentiate(new VariablesExpression(variable));
 	}
-	
-	@Override public Expression simplify(Map<String, Double> environment) {
-		if (environment.containsKey(name)) {
-			return new NumberExpression(environment.get(name).toString());
-		}
-		return this;
-	}
-	
+	 
 	/**
 	 * @param variable VariablesExpression to differentiate by
 	 * @return expression's derivative with respect to variable.

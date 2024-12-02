@@ -100,9 +100,7 @@ public class ExpressionTest {
     	assertTrue("expected equals", Expression.parse("4.567856").equals(expression));
     	assertEquals("expected hash code equal", 
     			Expression.parse("4.567856").hashCode(), expression.hashCode());
-    	
-    	Expression simplified = expression.simplify(Map.of("x", 1.0));
-    	assertEquals("expected simplify", "4.5678", simplified.toString());
+    	  
     }
     
     /**
@@ -119,12 +117,7 @@ public class ExpressionTest {
     	Expression diff = exp1.differentiate("x");
     	assertEquals("expected differentiate", "1", diff.toString());
     	diff = exp2.differentiate("x");
-    	assertEquals("expected differentiate", "0", diff.toString());
-    	
-    	Expression simplified = exp1.simplify(Map.of("x", 1.0));
-    	assertEquals("expected simplify", Expression.parse("1.0"), simplified);
-    	simplified = exp2.simplify(Map.of("x", 1.0));
-    	assertEquals("expected simplify", Expression.parse("X"), simplified);
+    	assertEquals("expected differentiate", "0", diff.toString()); 
     }
     
     /**
@@ -142,11 +135,7 @@ public class ExpressionTest {
     	
     	Expression diff = exp1.differentiate("x");
     	assertEquals("expected differentiate", "1+0", diff.toString());
-    	
-    	Expression simplified = exp1.simplify(Map.of("x", 1.0));
-    	assertEquals("expected differentiate",
-    			Expression.add(Expression.parse("1.0"), Expression.parse("y")),
-    			simplified);
+     
     }
     
     /**
@@ -194,15 +183,7 @@ public class ExpressionTest {
     	assertEquals("expected differentiate zero", Expression.parse("(x*1)*(y*0)+0"), diff);
     	diff = exp2.differentiate("y");
     	assertEquals("expected differentiate zero", Expression.parse("(x*1)*(y*0)+0"), diff);
-    	
-    	Expression simplified = exp1.simplify(Map.of("x", 1.0));
-    	assertEquals("expected differentiate",
-    			Expression.add(Expression.parse("1.0*y"), Expression.parse("100")),
-    			simplified);
-    	simplified = exp2.simplify(Map.of("x", 1.0));
-    	assertEquals("expected differentiate",
-    			Expression.add(Expression.parse("1.0*y"), Expression.parse("100")),
-    			simplified);
+    	 
     }
     
     /**
@@ -223,9 +204,7 @@ public class ExpressionTest {
     	
     	Expression diff = exp1.differentiate("y");
     	assertEquals("expected differentiate zero", Expression.parse("0+(x*1)*(y*0)"), diff);
-    	
-    	Expression simplified = exp1.simplify(Map.of("x", 1.0, "y", 2.0));
-    	assertEquals("expected differentiate", Expression.parse("202"), simplified);
+    	 
     }
     
     /**
@@ -253,9 +232,7 @@ public class ExpressionTest {
     	
     	Expression diff = exp1.differentiate("y");
     	assertEquals("expected differentiate zero", Expression.parse("(((x*y)*0)*(z*((x*1)*(y*0))))+0"), diff);
-    	
-    	Expression simplified = exp1.simplify(Map.of("z", 1.0, "j", 2.0));
-    	assertEquals("expected differentiate", Expression.parse("((x*y)*1.0)+200"), simplified);
+    	 
     }
     
     /**
@@ -282,9 +259,7 @@ public class ExpressionTest {
     	
     	Expression diff = exp1.differentiate("x");
     	assertEquals("expected differentiate zero", Expression.parse("((x*((y*0)*(z*0)))*((y*z)*1))+0"), diff);
-    	
-    	Expression simplified = exp1.simplify(Map.of("x", 2.0, "y", 2.0, "z", 2.0));
-    	assertEquals("expected differentiate", Expression.parse("208"), simplified);
+    	 
     }
     
     /**
@@ -309,9 +284,7 @@ public class ExpressionTest {
     	
     	Expression diff = exp1.differentiate("x");
     	assertEquals("expected differentiate zero", Expression.parse("0+(((x*y)*0)*(z*((x*0)*(y*1))))"), diff);
-    	
-    	Expression simplified = exp1.simplify(Map.of("x", 2.0, "y", 2.0, "j", 2.0));
-    	assertEquals("expected differentiate", Expression.parse("200+(4.0*z)"), simplified);
+    	 
     }
     
     /**
@@ -337,9 +310,7 @@ public class ExpressionTest {
     	
     	Expression diff = exp1.differentiate("d");
     	assertEquals("expected differentiate zero", Expression.parse("(200*(0+((y*0)*(z*0))))*((x+(y*z))*0)"), diff);
-    	
-    	Expression simplified = exp1.simplify(Map.of("x", 2.0, "y", 2.0, "j", 2.0));
-    	assertEquals("expected differentiate", Expression.parse("200*(2.0+2.0*z)"), simplified);
+    	 
     }
     
     /**
@@ -362,8 +333,6 @@ public class ExpressionTest {
     	
     	Expression diff = exp1.differentiate("y");
     	assertEquals("expected differentiate zero", Expression.parse("(x*((y*((z*((200*((300*0)*(j*0)))*((300*j)*0)))*((200*(300*j))*0)))*((z*(200*(300*j)))*1)))*((y*(z*(200*(300*j))))*0)"), diff);
-    
-    	Expression simplified = exp1.simplify(Map.of("x", 2.0, "y", 2.0, "z", 2.0, "j", 1.0));
-    	assertEquals("expected differentiate", Expression.parse("480000"), simplified);
+     
     }
 }
