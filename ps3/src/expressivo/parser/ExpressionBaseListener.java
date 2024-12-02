@@ -31,6 +31,18 @@ public class ExpressionBaseListener implements ExpressionListener {
    *
    * <p>The default implementation does nothing.</p>
    */
+  @Override public void enterExpression(ExpressionParser.ExpressionContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
+  @Override public void exitExpression(ExpressionParser.ExpressionContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
   @Override public void enterSum(ExpressionParser.SumContext ctx) { }
   /**
    * {@inheritDoc}
@@ -43,6 +55,18 @@ public class ExpressionBaseListener implements ExpressionListener {
    *
    * <p>The default implementation does nothing.</p>
    */
+  @Override public void enterMultiplication(ExpressionParser.MultiplicationContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
+  @Override public void exitMultiplication(ExpressionParser.MultiplicationContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
   @Override public void enterPrimitive(ExpressionParser.PrimitiveContext ctx) { }
   /**
    * {@inheritDoc}
@@ -50,6 +74,18 @@ public class ExpressionBaseListener implements ExpressionListener {
    * <p>The default implementation does nothing.</p>
    */
   @Override public void exitPrimitive(ExpressionParser.PrimitiveContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
+  @Override public void enterParentheses(ExpressionParser.ParenthesesContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
+  @Override public void exitParentheses(ExpressionParser.ParenthesesContext ctx) { }
 
   /**
    * {@inheritDoc}

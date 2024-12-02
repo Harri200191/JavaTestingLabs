@@ -21,6 +21,16 @@ public interface ExpressionListener extends ParseTreeListener {
    */
   void exitRoot(ExpressionParser.RootContext ctx);
   /**
+   * Enter a parse tree produced by {@link ExpressionParser#expression}.
+   * @param ctx the parse tree
+   */
+  void enterExpression(ExpressionParser.ExpressionContext ctx);
+  /**
+   * Exit a parse tree produced by {@link ExpressionParser#expression}.
+   * @param ctx the parse tree
+   */
+  void exitExpression(ExpressionParser.ExpressionContext ctx);
+  /**
    * Enter a parse tree produced by {@link ExpressionParser#sum}.
    * @param ctx the parse tree
    */
@@ -31,6 +41,16 @@ public interface ExpressionListener extends ParseTreeListener {
    */
   void exitSum(ExpressionParser.SumContext ctx);
   /**
+   * Enter a parse tree produced by {@link ExpressionParser#multiplication}.
+   * @param ctx the parse tree
+   */
+  void enterMultiplication(ExpressionParser.MultiplicationContext ctx);
+  /**
+   * Exit a parse tree produced by {@link ExpressionParser#multiplication}.
+   * @param ctx the parse tree
+   */
+  void exitMultiplication(ExpressionParser.MultiplicationContext ctx);
+  /**
    * Enter a parse tree produced by {@link ExpressionParser#primitive}.
    * @param ctx the parse tree
    */
@@ -40,4 +60,14 @@ public interface ExpressionListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   void exitPrimitive(ExpressionParser.PrimitiveContext ctx);
+  /**
+   * Enter a parse tree produced by {@link ExpressionParser#parentheses}.
+   * @param ctx the parse tree
+   */
+  void enterParentheses(ExpressionParser.ParenthesesContext ctx);
+  /**
+   * Exit a parse tree produced by {@link ExpressionParser#parentheses}.
+   * @param ctx the parse tree
+   */
+  void exitParentheses(ExpressionParser.ParenthesesContext ctx);
 }
